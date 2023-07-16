@@ -12,11 +12,11 @@ export const App = () => {
   const [searchQuery, setSearchQuery] = useState(null);
   const prevSearchQueryRef = useRef(null);
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(12);
+  const [perPage] = useState(12);
   const [totalImages, setTotalImages] = useState(0);
   const [pictures, setPictures] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [, setError] = useState(null);
 
   useEffect(() => {
     getPictures();
