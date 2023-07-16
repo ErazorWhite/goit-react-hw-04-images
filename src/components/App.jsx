@@ -18,29 +18,23 @@ export const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [, setError] = useState(null);
 
+  // 1. React Hook useEffect has a missing dependency: 'getPictures'. Either include it or remove the dependency array.eslintreact-hooks/exhaustive-deps
+  // Ок, добавил getPictures в массив зависимостей
+  // 2. 'getPictures' was used before it was defined.eslintno-use-before-define
+  // Ок, вынес getPictures выше useEffect
+  // 3. The 'getPictures' function makes the dependencies of useEffect Hook (at line 52) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'getPictures' in its own useCallback() Hook.eslintreact-hooks/exhaustive-deps
+  // Чертов линтер, из-за всех этих warning у меня github build крашит
+  
+  // Нагуглил два решения:
+  // а) "scripts": {
+  //      "build": "CI=false && react-scripts build",  // Add CI=False here
+  // б) env:
+  //      CI: false;
+  
   useEffect(() => {
     getPictures();
     prevSearchQueryRef.current = searchQuery;
   }, [page, searchQuery]);
-
-  const getQuery = ({ searchQuery }) => {
-    if (prevSearchQueryRef.current === searchQuery) {
-      toast('Try to enter something else!');
-      return;
-    }
-    resetPageNewSearch(searchQuery);
-  };
-
-  const resetPageNewSearch = searchQuery => {
-    setSearchQuery(searchQuery);
-    setPage(1);
-    setPictures([]);
-    setTotalImages(0);
-  };
-
-  const handleLoadMoreClick = () => {
-    setPage(page + 1);
-  };
 
   const getPictures = async () => {
     try {
@@ -64,6 +58,25 @@ export const App = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const getQuery = ({ searchQuery }) => {
+    if (prevSearchQueryRef.current === searchQuery) {
+      toast('Try to enter something else!');
+      return;
+    }
+    resetPageNewSearch(searchQuery);
+  };
+
+  const resetPageNewSearch = searchQuery => {
+    setSearchQuery(searchQuery);
+    setPage(1);
+    setPictures([]);
+    setTotalImages(0);
+  };
+
+  const handleLoadMoreClick = () => {
+    setPage(page + 1);
   };
 
   return (
