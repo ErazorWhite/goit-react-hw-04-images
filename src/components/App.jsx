@@ -12,11 +12,11 @@ export const App = () => {
   const [searchQuery, setSearchQuery] = useState(null);
   const prevSearchQueryRef = useRef(null);
   const [page, setPage] = useState(1);
-  const [perPage] = useState(12);
+  const [perPage, setPerPage] = useState(12); // 'setPerPage' is declared but its value is never -_-
   const [totalImages, setTotalImages] = useState(0);
   const [pictures, setPictures] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [, setError] = useState(null);
+  const [error, setError] = useState(null); // 'error' is declared but its value is never read. -_-
 
   // 1. React Hook useEffect has a missing dependency: 'getPictures'. Either include it or remove the dependency array.eslintreact-hooks/exhaustive-deps
   // Ок, добавил getPictures в массив зависимостей
@@ -24,13 +24,16 @@ export const App = () => {
   // Ок, вынес getPictures выше useEffect
   // 3. The 'getPictures' function makes the dependencies of useEffect Hook (at line 52) change on every render. Move it inside the useEffect callback. Alternatively, wrap the definition of 'getPictures' in its own useCallback() Hook.eslintreact-hooks/exhaustive-deps
   // Чертов линтер, из-за всех этих warning у меня github build крашит
-  
+
   // Нагуглил два решения:
   // а) "scripts": {
   //      "build": "CI=false && react-scripts build",  // Add CI=False here
   // б) env:
   //      CI: false;
-  
+
+  // Compiled with warnings.
+  // Хз хорошо это или не очень
+
   useEffect(() => {
     getPictures();
     prevSearchQueryRef.current = searchQuery;
