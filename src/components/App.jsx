@@ -6,11 +6,10 @@ import { getPicturesByQuery } from 'services/PixabayAPI';
 import { Loader } from './Loader/SkeletonImage';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export const App = () => {
   const [searchQuery, setSearchQuery] = useState(null);
-  const prevSearchQueryRef = useRef(null);
   const [page, setPage] = useState(1);
   const [perPage] = useState(12);
   const [totalImages, setTotalImages] = useState(0);
@@ -27,8 +26,7 @@ export const App = () => {
     try {
       setIsLoading(true);
       setError(null);
-      const normalizedSearchQuery = searchQuery.toLowerCase().trim();
-      prevSearchQueryRef.current = normalizedSearchQuery;
+      const normalizedSearchQuery = searchQuery.toLowerCase();
 
       const { hits, totalHits } = await getPicturesByQuery(
         normalizedSearchQuery,
@@ -54,12 +52,13 @@ export const App = () => {
     getPictures();
   }, [page, searchQuery, getPictures]);
 
-  const getQuery = ({ searchQuery }) => {
-    if (prevSearchQueryRef.current === searchQuery) {
+  const getQuery = ({ searchQuery: query }) => {
+    const newQuery = query.toLowerCase();
+    if (newQuery === searchQuery) {
       toast('Try to enter something else!');
       return;
     }
-    resetPageNewSearch(searchQuery);
+    resetPageNewSearch(newQuery);
   };
 
   const resetPageNewSearch = searchQuery => {

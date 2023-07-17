@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 
 let searchValidationSchema = Yup.object().shape({
-  searchQuery: Yup.string().required('Required!'),
+  searchQuery: Yup.string().trim().required('Required!'),
 });
 
 export const SearchBar = ({ onSubmit }) => {
