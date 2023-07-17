@@ -3,22 +3,24 @@ import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 export const Modal = ({ src, alt, closeModal }) => {
+  
   useEffect(() => {
+    const handleEsc = e => {
+      closeModal();
+    };
+
     document.addEventListener('keydown', handleEsc);
     return () => {
       document.removeEventListener('keydown', handleEsc);
     };
-  }, []);
-
-  const handleEsc = e => {
-    closeModal();
-  };
+  }, [closeModal]);
 
   const handleOverlayClick = e => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
   };
+
   return (
     <Overlay onClick={handleOverlayClick}>
       <ModalWrapper>
